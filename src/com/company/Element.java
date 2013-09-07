@@ -1,38 +1,44 @@
 package com.company;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
- * User: seba
+ * User: Sebastián González Mardones
  * Date: 9/6/13
  * Time: 4:39 PM
  * To change this template use File | Settings | File Templates.
  */
 public class Element {
 
+    //You need to have a map in order to build an Element
+    private static Vector<String> map;
     private char type;
     private Vector<Integer> position;
-    private List<Element> neighbours = new ArrayList<Element>();
     private Element parent;
 
+    //Builders
+    public Element( Vector<String> map_in, Vector<Integer> position_in){
+        map = map_in;
+        this.position = position_in;
+    }
 
+    public Element( Vector<Integer> position_in){
+        this.position = position_in;
+    }
+
+    public Element(){}
+
+    //Getters och Setters och Class Functions
     public char getType() {
         return type;
     }
 
     public void setType(char type) {
         this.type = type;
-    }
-
-    public List<Element> getNeighbours() {
-        return neighbours;
-    }
-
-    public void setNeighbours(List<Element> neighbours) {
-        this.neighbours = neighbours;
     }
 
     public Element getParent() {
@@ -50,4 +56,38 @@ public class Element {
     public void setPosition(Vector<Integer> position) {
         this.position = position;
     }
+
+    public Vector<String> getMap() {
+        return map;
+    }
+
+    public boolean canMoveRight(){
+        //indice de string en vector de string es coordenada y de posicion
+        //indice de caracter en la string es coordenada x
+        return  (map.get(getPosition().lastElement()).charAt(getPosition().firstElement() + 1) == ' ');
+    }
+
+    public boolean canMoveLeft(){
+        return (map.get(getPosition().lastElement()).charAt(getPosition().firstElement() - 1) == ' ');
+    }
+
+    public boolean canMoveUp(){
+        return (map.get(getPosition().lastElement() - 1).charAt(getPosition().firstElement()) == ' ');
+    }
+
+    public boolean canMoveDown(){
+        return (map.get(getPosition().lastElement() + 1).charAt(getPosition().firstElement()) == ' ');
+    }
+
+    public boolean isIn(LinkedList<Element> visited){
+        if (visited.indexOf(this) == -1){
+            return false;
+        }
+        else return true;
+    }
+
+    public boolean samePositionAs(Vector<Integer> elem){
+        return (this.getPosition().firstElement().equals(elem.firstElement()) && this.getPosition().lastElement().equals(elem.lastElement()));
+    }
+
 }
