@@ -1,8 +1,5 @@
 package com.company;
-import java.io.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Vector;
 
 /**
@@ -30,7 +27,8 @@ public class Element {
         this.position = position_in;
     }
 
-    public Element(){}
+    public Element(){
+    }
 
     //Getters och Setters och Class Functions
     public char getType() {
@@ -64,30 +62,32 @@ public class Element {
     public boolean canMoveRight(){
         //indice de string en vector de string es coordenada y de posicion
         //indice de caracter en la string es coordenada x
-        return  (map.get(getPosition().lastElement()).charAt(getPosition().firstElement() + 1) == ' ');
+        return  (map.get(getPosition().lastElement()).charAt(getPosition().firstElement() + 1) == ' ' || map.get(getPosition().lastElement()).charAt(getPosition().firstElement() + 1) == '.');
     }
 
     public boolean canMoveLeft(){
-        return (map.get(getPosition().lastElement()).charAt(getPosition().firstElement() - 1) == ' ');
+        return (map.get(getPosition().lastElement()).charAt(getPosition().firstElement() - 1) == ' ' || map.get(getPosition().lastElement()).charAt(getPosition().firstElement() - 1) == '.');
     }
 
     public boolean canMoveUp(){
-        return (map.get(getPosition().lastElement() - 1).charAt(getPosition().firstElement()) == ' ');
+        return (map.get(getPosition().lastElement() - 1).charAt(getPosition().firstElement()) == ' ' || map.get(getPosition().lastElement() - 1).charAt(getPosition().firstElement()) == '.');
     }
 
     public boolean canMoveDown(){
-        return (map.get(getPosition().lastElement() + 1).charAt(getPosition().firstElement()) == ' ');
+        return (map.get(getPosition().lastElement() + 1).charAt(getPosition().firstElement()) == ' ' || map.get(getPosition().lastElement() + 1).charAt(getPosition().firstElement()) == '.');
     }
 
     public boolean isIn(LinkedList<Element> visited){
-        if (visited.indexOf(this) == -1){
-            return false;
+        for (Element elem : visited){
+            if (this.equalsP(elem)){
+                return true;
+            }
         }
-        else return true;
+        return false;
     }
 
-    public boolean samePositionAs(Vector<Integer> elem){
-        return (this.getPosition().firstElement().equals(elem.firstElement()) && this.getPosition().lastElement().equals(elem.lastElement()));
+    public boolean equalsP(Element el){
+        return (this.getPosition().equals(el.getPosition()));
     }
 
 }
